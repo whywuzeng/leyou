@@ -1,5 +1,6 @@
 package com.leyou.goods.controller;
 
+import com.leyou.goods.service.GoodsHtmlService;
 import com.leyou.goods.service.GoodsService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +28,9 @@ public class GoodsController {
     @Autowired
     private GoodsService goodsService;
 
+    @Autowired
+    private GoodsHtmlService goodsHtmlService;
+
     @GetMapping("{id}.html")
     public String toImagePage(Model model, @PathVariable("id")Long id){
         // 数据sku
@@ -39,6 +43,9 @@ public class GoodsController {
             e.printStackTrace();
         }
         model.addAllAttributes(map);
+
+        this.goodsHtmlService.asyncExcute(id);
+
         return "item";
     }
 }
