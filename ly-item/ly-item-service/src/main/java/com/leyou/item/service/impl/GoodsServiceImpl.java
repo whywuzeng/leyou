@@ -101,7 +101,21 @@ public class GoodsServiceImpl implements GoodsService {
     }
 
     @Override
-    public Spu querySpuById(Long id) {
-        return spuMapper.selectByPrimaryKey(id);
+    public SpuBo querySpuById(Long id) {
+        //这里一致作为一个接口
+        //查出spuBo
+        //包含 spudetail 和 skulist
+        Spu spu = spuMapper.selectByPrimaryKey(id);
+        SpuDetail spuDetail = this.spuDetailMapper.selectByPrimaryKey(id);
+
+        Example example = new Example(Sku.class);
+        example.createCriteria().andEqualTo("spuId",id);
+        List<Sku> skus = this.skuMapper.selectByExample(example);
+
+        SpuBo spuBo = new SpuBo(spu.getBrandId(),spu.getCid1(),spu.getCid2(),spu.getCid3(),spu.getTitle(),spu.getSubTitle(),spu.getSaleable(),spu.getValid(),spu.getCreateTime(),spu.getLastUpdateTime());
+        spuBo.setSpuDetail(spuDetail);
+        spuBo.setSkuList(skus);
+
+        return spuBo;
     }
 }

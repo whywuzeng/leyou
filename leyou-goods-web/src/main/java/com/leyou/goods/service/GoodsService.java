@@ -1,6 +1,7 @@
 package com.leyou.goods.service;
 
 import java.util.Map;
+import java.util.concurrent.ExecutionException;
 
 /**
  * Created by Administrator on 2020/2/25.
@@ -17,5 +18,5 @@ public interface GoodsService {
      * @param spuId
      * @return
      */
-    Map<String,Object> loadGroup(Long spuId);
+    Map<String,Object> loadGroup(Long spuId) throws ExecutionException,InterruptedException;
 }

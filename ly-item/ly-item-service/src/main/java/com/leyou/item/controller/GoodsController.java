@@ -2,7 +2,6 @@ package com.leyou.item.controller;
 
 import com.leyou.common.pojo.PageResult;
 import com.leyou.item.pojo.Sku;
-import com.leyou.item.pojo.Spu;
 import com.leyou.item.pojo.SpuBo;
 import com.leyou.item.pojo.SpuDetail;
 import com.leyou.item.service.GoodsService;
@@ -26,7 +25,7 @@ import java.util.List;
  * com.leyou.item.controller
  */
 @RestController
-@RequestMapping("/goods")
+@RequestMapping("goods")
 public class GoodsController {
 
     @Autowired
@@ -46,10 +45,15 @@ public class GoodsController {
         }
         return ResponseEntity.ok(result);
     }
-
+    //http://127.0.0.1:
     @GetMapping("spu/{id}")
-    public Spu querySpuById(@PathVariable("id") Long id){
-        return this.goodsService.querySpuById(id);
+    public ResponseEntity<SpuBo> querySpuById(@PathVariable("id") Long id){
+        SpuBo spuBo = this.goodsService.querySpuById(id);
+        if (spuBo == null)
+        {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return ResponseEntity.ok(spuBo);
     }
 
     /**
