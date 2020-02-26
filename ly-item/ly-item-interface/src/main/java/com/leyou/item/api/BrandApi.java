@@ -18,6 +18,7 @@ import java.util.List;
 @RequestMapping("brand")
 public interface BrandApi {
 
+    //商品id查询商品
     @GetMapping("list")
     List<Brand> queryBrandByIds(@RequestParam("ids") List<Long> ids);
 
