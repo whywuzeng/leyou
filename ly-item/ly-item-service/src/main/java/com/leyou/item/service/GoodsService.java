@@ -25,4 +25,8 @@ public interface GoodsService {
     List<Sku> querySkuBySpuId(Long id);
 
     SpuBo querySpuById(Long id);
+
+    //新增
+
+    //修改
 }

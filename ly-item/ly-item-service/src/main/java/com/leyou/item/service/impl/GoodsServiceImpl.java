@@ -16,6 +16,10 @@ import com.leyou.item.service.CategoryService;
 import com.leyou.item.service.GoodsService;
 
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.amqp.AmqpException;
+import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -50,6 +54,11 @@ public class GoodsServiceImpl implements GoodsService {
 
     @Autowired
     private SkuMapper skuMapper;
+
+    @Autowired
+    private AmqpTemplate amqpTemplate;
+
+    private static final Logger LOGGER   = LoggerFactory.getLogger(GoodsServiceImpl.class);
 
     @Override
     public PageResult<SpuBo> querySpuByPageAndSort(Integer page, Integer rows, Boolean saleable, String key) {
@@ -117,5 +126,14 @@ public class GoodsServiceImpl implements GoodsService {
         spuBo.setSkuList(skus);
 
         return spuBo;
+    }
+
+    private void sendMessage(Long id,String type)
+    {
+        try {
+            this.amqpTemplate.convertAndSend("item."+type,id);
+        } catch (AmqpException e) {
+            LOGGER.error("{}商品消息发送异常，商品id：{}", type, id, e);
+        }
     }
 }

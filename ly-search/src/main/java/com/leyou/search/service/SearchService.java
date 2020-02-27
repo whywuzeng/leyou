@@ -15,4 +15,7 @@ public interface SearchService {
 
      SearchResult search(SearchRequest searchRequest);
 
+     void createIndex(Long id) throws Exception;
+
+     void deleteIndex(Long id) throws Exception;
 }
