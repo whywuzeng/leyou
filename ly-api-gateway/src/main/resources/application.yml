@@ -18,8 +18,12 @@ zuul:
   routes:
     item-service: /item/**  # 将商品微服务映射到/item/**
     search-service: /search/** # 将搜索微服务映射到/search/**
+    user-service: /user/** #用户微服务
+    auth-service: /auth/** #用户鉴权
   ignored-services:
     - upload-service # 忽略upload-service服务
+  add-host-header: true #携带请求本身的head头信息
+  sensitive-headers:
 ribbon:
   ConnectTimeout: 250 # 连接超时时间(ms)
   ReadTimeout: 2000 # 通信超时时间(ms)

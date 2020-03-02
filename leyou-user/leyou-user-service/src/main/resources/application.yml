@@ -1,0 +1,39 @@
+server:
+  port: 8085
+spring:
+  application:
+    name: user-service
+  datasource:
+    url: jdbc:mysql://localhost:3306/leyou01?characterEncoding=utf8&serverTimezone=UTC
+    username: root
+    password: 123456
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    hikari:
+      maximum-pool-size: 30
+      minimum-idle: 10
+  redis:
+    host: 192.168.128.129
+  rabbitmq:
+    host: 192.168.128.129
+    username: itzeng
+    password: itzeng
+    virtual-host: /leyou
+    template:
+      retry:
+        enabled: true
+        initial-interval: 10000ms
+        max-interval: 210000ms
+        multiplier: 2
+eureka:
+  client:
+    service-url:
+      defaultZone: http://127.0.0.1:10086/eureka
+  instance:
+    ip-address: 127.0.0.1
+    prefer-ip-address: true #就可以将IP注册到Eureka Server上，而如果不配置就是机器的主机名。
+    instance-id: ${eureka.instance.ip-address}.${server.port}
+    lease-renewal-interval-in-seconds: 5
+    lease-expiration-duration-in-seconds: 15
+
+mybatis:
+  type-aliases-package: com.leyou.user.pojo
